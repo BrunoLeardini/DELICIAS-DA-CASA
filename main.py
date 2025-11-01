@@ -40,7 +40,7 @@ esfihas = {
 # Combina tudo para cálculo e gravação
 sabores = {**pizzas, **tortas, **esfihas}
 
-arquivo_excel = "pedidos_torteria.xlsx"
+arquivo_excel = "pedidos_vendas.xlsx"
 
 if not os.path.exists(arquivo_excel):
     df_init = pd.DataFrame(columns=[
@@ -252,10 +252,15 @@ elif st.session_state.aba == "Relatório":
             # Download
             buffer = io.BytesIO()
             df.to_excel(buffer, index=False)
+
+            # Gera nome do arquivo com a data de hoje
+            data_hoje = datetime.now().strftime("%d-%m-%Y")
+            nome_arquivo = f"relatorio_vendas_{data_hoje}.xlsx"
+
             st.download_button(
                 "📥 Baixar planilha completa (.xlsx)",
                 data=buffer.getvalue(),
-                file_name="relatorio_torteria.xlsx",
+                file_name=nome_arquivo,
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
